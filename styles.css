@@ -222,17 +222,21 @@ body {
 
 @media print {
     @page {
-        size: A4 landscape;
-        margin: 10mm;
+        size: 297mm 210mm;
+        margin: 0;
     }
 
+    html,
     body {
         background: #fff;
-        min-height: auto;
+        width: 297mm;
+        height: 210mm;
+        min-height: 210mm;
+        margin: 0;
     }
 
     .layout {
-        width: auto;
+        width: 297mm;
         margin: 0;
         padding: 0;
         display: block;
@@ -251,13 +255,57 @@ body {
     }
 
     .certificate {
-        width: 100%;
-        min-height: auto;
-        padding: 12mm 14mm;
+        width: 297mm;
+        height: 210mm;
+        min-height: 210mm;
+        padding: 10mm 14mm;
         border: 0;
         border-radius: 0;
         box-shadow: none;
         background: #fff;
-        break-inside: avoid;
+        overflow: hidden;
+        break-inside: avoid-page;
+        page-break-inside: avoid;
+    }
+
+    .certificate__logo {
+        width: min(100%, 760px);
+        margin: 0 auto 14px;
+    }
+
+    .certificate__event {
+        font-size: 2.5rem;
+    }
+
+    .certificate__lead {
+        margin-top: 16px;
+        font-size: 1.2rem;
+    }
+
+    .certificate__name {
+        margin-top: 12px;
+        font-size: 3.3rem;
+    }
+
+    .certificate__placing {
+        margin-top: 10px;
+        font-size: 2.7rem;
+    }
+
+    .certificate__text {
+        margin-top: 8px;
+        font-size: 1.5rem;
+    }
+
+    .certificate__quote {
+        margin-top: 24px;
+        max-width: 100%;
+        font-size: 1.1rem;
+        line-height: 1.45;
+    }
+
+    .certificate__footer {
+        margin-top: 34px;
+        font-size: 1.8rem;
     }
 }
