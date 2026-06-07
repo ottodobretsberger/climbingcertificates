@@ -1,4 +1,6 @@
 const form = document.getElementById("certificate-form");
+const certificate = document.getElementById("certificate");
+const downloadPdfButton = document.getElementById("downloadPdfButton");
 const printButton = document.getElementById("printButton");
 
 const fields = {
@@ -55,6 +57,44 @@ form.addEventListener("reset", () => {
 
 printButton.addEventListener("click", () => {
     window.print();
+});
+
+downloadPdfButton.addEventListener("click", async () => {
+    if (typeof window.html2pdf !== "function") {
+        window.print();
+        return;
+    }
+
+    const originalWidth = certificate.style.width;
+    const originalMinHeight = certificate.style.minHeight;
+    const originalHeight = certificate.style.height;
+    const originalMargin = certificate.style.margin;
+
+    certificate.style.width = "210mm";
+    certificate.style.minHeight = "297mm";
+    certificate.style.height = "297mm";
+    certificate.style.margin = "0 auto";
+
+    const eventLabel = (fields.eventName.value || "Urkunde").trim().replace(/[^a-zA-Z0-9_-]+/g, "-");
+    const fileName = `${eventLabel || "Urkunde"}-${new Date().toISOString().slice(0, 10)}.pdf`;
+
+    const options = {
+        margin: [0, 0, 0, 0],
+        filename: fileName,
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff" },
+        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+        pagebreak: { mode: ["avoid-all"] }
+    };
+
+    try {
+        await window.html2pdf().set(options).from(certificate).save();
+    } finally {
+        certificate.style.width = originalWidth;
+        certificate.style.minHeight = originalMinHeight;
+        certificate.style.height = originalHeight;
+        certificate.style.margin = originalMargin;
+    }
 });
 
 fields.date.value = new Date().toISOString().split("T")[0];

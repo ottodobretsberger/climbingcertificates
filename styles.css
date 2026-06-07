@@ -112,6 +112,12 @@ body {
     flex-wrap: wrap;
 }
 
+.print-note {
+    margin: 8px 0 0;
+    color: rgba(24, 40, 59, 0.78);
+    font-size: 0.9rem;
+}
+
 .button {
     appearance: none;
     border: 0;
@@ -138,10 +144,10 @@ body {
 }
 
 .certificate {
-    width: min(100%, 1123px);
-    min-height: 794px;
+    width: min(100%, 794px);
+    min-height: 1123px;
     margin: 0 auto;
-    padding: 48px 72px 56px;
+    padding: 38px 42px 46px;
     background:
         linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.92)),
         var(--paper);
@@ -152,14 +158,14 @@ body {
 }
 
 .certificate__logo {
-    width: min(100%, 820px);
+    width: min(100%, 520px);
     display: block;
-    margin: 0 auto 26px;
+    margin: 0 auto 18px;
 }
 
 .certificate__event {
     margin: 0;
-    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    font-size: clamp(2.2rem, 3.4vw, 3rem);
     font-weight: 600;
 }
 
@@ -171,39 +177,39 @@ body {
 }
 
 .certificate__lead {
-    margin-top: 28px;
-    font-size: 1.4rem;
+    margin-top: 18px;
+    font-size: 1.2rem;
     letter-spacing: 0.03em;
 }
 
 .certificate__name {
-    margin: 18px 0 0;
-    font-size: clamp(3rem, 5vw, 4.4rem);
+    margin: 12px 0 0;
+    font-size: clamp(2.6rem, 4.5vw, 3.8rem);
     font-weight: 600;
     line-height: 0.95;
 }
 
 .certificate__placing {
-    margin: 16px 0 0;
-    font-size: clamp(2.7rem, 4vw, 3.7rem);
+    margin: 12px 0 0;
+    font-size: clamp(2.3rem, 3.5vw, 3.1rem);
     font-weight: 600;
 }
 
 .certificate__text {
-    margin-top: 12px;
-    font-size: 1.8rem;
+    margin-top: 8px;
+    font-size: 1.4rem;
 }
 
 .certificate__quote {
-    max-width: 760px;
-    margin: 42px auto 0;
-    font-size: 1.28rem;
-    line-height: 1.6;
+    max-width: 620px;
+    margin: 32px auto 0;
+    font-size: 1.08rem;
+    line-height: 1.55;
 }
 
 .certificate__footer {
-    margin-top: 72px;
-    font-size: 2rem;
+    margin-top: 56px;
+    font-size: 1.7rem;
 }
 
 @media (max-width: 1040px) {
@@ -222,21 +228,21 @@ body {
 
 @media print {
     @page {
-        size: 297mm 210mm;
+        size: 210mm 297mm;
         margin: 0;
     }
 
     html,
     body {
         background: #fff;
-        width: 297mm;
-        height: 210mm;
-        min-height: 210mm;
+        width: 210mm;
+        height: 297mm;
+        min-height: 297mm;
         margin: 0;
     }
 
     .layout {
-        width: 297mm;
+        width: 210mm;
         margin: 0;
         padding: 0;
         display: block;
@@ -255,10 +261,10 @@ body {
     }
 
     .certificate {
-        width: 297mm;
-        height: 210mm;
-        min-height: 210mm;
-        padding: 10mm 14mm;
+        width: 210mm;
+        height: 297mm;
+        min-height: 297mm;
+        padding: 10mm 11mm;
         border: 0;
         border-radius: 0;
         box-shadow: none;
@@ -269,43 +275,43 @@ body {
     }
 
     .certificate__logo {
-        width: min(100%, 760px);
-        margin: 0 auto 14px;
+        width: min(100%, 520px);
+        margin: 0 auto 12px;
     }
 
     .certificate__event {
-        font-size: 2.5rem;
+        font-size: 2.35rem;
     }
 
     .certificate__lead {
-        margin-top: 16px;
-        font-size: 1.2rem;
+        margin-top: 14px;
+        font-size: 1.12rem;
     }
 
     .certificate__name {
-        margin-top: 12px;
-        font-size: 3.3rem;
+        margin-top: 10px;
+        font-size: 3.1rem;
     }
 
     .certificate__placing {
-        margin-top: 10px;
-        font-size: 2.7rem;
+        margin-top: 8px;
+        font-size: 2.4rem;
     }
 
     .certificate__text {
-        margin-top: 8px;
-        font-size: 1.5rem;
+        margin-top: 6px;
+        font-size: 1.34rem;
     }
 
     .certificate__quote {
         margin-top: 24px;
         max-width: 100%;
-        font-size: 1.1rem;
+        font-size: 1.03rem;
         line-height: 1.45;
     }
 
     .certificate__footer {
-        margin-top: 34px;
-        font-size: 1.8rem;
+        margin-top: 42px;
+        font-size: 1.65rem;
     }
 }

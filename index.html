@@ -15,7 +15,7 @@
             <div class="controls__header">
                 <p class="eyebrow">Kletterverein</p>
                 <h1>Urkunde erstellen</h1>
-                <p>Felder ausfüllen, Vorschau prüfen und anschließend als PDF drucken.</p>
+                <p>Felder ausfüllen, Vorschau prüfen und anschließend als PDF exportieren.</p>
             </div>
 
             <form class="form" id="certificate-form">
@@ -45,9 +45,11 @@
                 </label>
 
                 <div class="actions">
-                    <button class="button button--primary" type="button" id="printButton">Als PDF drucken</button>
+                    <button class="button button--primary" type="button" id="downloadPdfButton">PDF herunterladen</button>
+                    <button class="button button--secondary" type="button" id="printButton">Drucken</button>
                     <button class="button button--secondary" type="reset">Zurücksetzen</button>
                 </div>
+                <p class="print-note">Hinweis: Beim Browser-Druck bitte "Kopf- und Fußzeilen" deaktivieren.</p>
             </form>
         </section>
 
@@ -74,6 +76,7 @@
         </section>
     </main>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" referrerpolicy="no-referrer"></script>
     <script src="script.js"></script>
 </body>
 </html>
