@@ -61,7 +61,7 @@ printButton.addEventListener("click", () => {
 
 downloadPdfButton.addEventListener("click", async () => {
     if (typeof window.html2pdf !== "function") {
-        window.print();
+        window.alert("PDF-Export ist nicht verfuegbar. Bitte Seite neu laden.");
         return;
     }
 
@@ -82,13 +82,22 @@ downloadPdfButton.addEventListener("click", async () => {
         margin: [0, 0, 0, 0],
         filename: fileName,
         image: { type: "jpeg", quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff" },
+        html2canvas: {
+            scale: 2,
+            backgroundColor: "#ffffff",
+            useCORS: false,
+            allowTaint: true,
+            logging: false
+        },
         jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
         pagebreak: { mode: ["avoid-all"] }
     };
 
     try {
         await window.html2pdf().set(options).from(certificate).save();
+    } catch (error) {
+        console.error("PDF export failed", error);
+        window.alert("PDF konnte nicht erzeugt werden. Bitte Seite neu laden und erneut versuchen.");
     } finally {
         certificate.style.width = originalWidth;
         certificate.style.minHeight = originalMinHeight;
