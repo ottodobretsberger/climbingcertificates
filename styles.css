@@ -106,10 +106,12 @@ body {
 }
 
 .actions {
-    display: flex;
-    gap: 12px;
+    display: block;
     margin-top: 12px;
-    flex-wrap: wrap;
+}
+
+.actions .button {
+    width: 100%;
 }
 
 .button {
