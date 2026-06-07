@@ -90,7 +90,7 @@ printButton.addEventListener("click", () => {
 });
 
 downloadPdfButton.addEventListener("click", async () => {
-    if (typeof window.html2pdf !== "function") {
+    if (typeof window.html2canvas !== "function" || !window.jspdf || !window.jspdf.jsPDF) {
         window.alert("PDF-Export ist nicht verfuegbar. Bitte Seite neu laden.");
         return;
     }
@@ -109,21 +109,6 @@ downloadPdfButton.addEventListener("click", async () => {
     const eventLabel = (fields.eventName.value || "Urkunde").trim().replace(/[^a-zA-Z0-9_-]+/g, "-");
     const fileName = `${eventLabel || "Urkunde"}-${new Date().toISOString().slice(0, 10)}.pdf`;
 
-    const options = {
-        margin: [0, 0, 0, 0],
-        filename: fileName,
-        image: { type: "jpeg", quality: 0.98 },
-        html2canvas: {
-            scale: 2,
-            backgroundColor: "#ffffff",
-            useCORS: false,
-            allowTaint: true,
-            logging: false
-        },
-        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-        pagebreak: { mode: ["avoid-all"] }
-    };
-
     try {
         if (logoImage) {
             const jpegLogo = toJpegDataUrl(logoImage);
@@ -132,10 +117,27 @@ downloadPdfButton.addEventListener("click", async () => {
             }
         }
 
-        await window.html2pdf().set(options).from(certificate).save();
+        const canvas = await window.html2canvas(certificate, {
+            scale: 2,
+            backgroundColor: "#ffffff",
+            useCORS: false,
+            allowTaint: true,
+            logging: false
+        });
+
+        const imgData = canvas.toDataURL("image/jpeg", 0.96);
+        const pdf = new window.jspdf.jsPDF({
+            orientation: "portrait",
+            unit: "mm",
+            format: "a4",
+            compress: true
+        });
+
+        pdf.addImage(imgData, "JPEG", 0, 0, 210, 297, undefined, "FAST");
+        pdf.save(fileName);
     } catch (error) {
         console.error("PDF export failed", error);
-        window.alert("PDF konnte nicht erzeugt werden. Bitte Seite neu laden und erneut versuchen. Falls der Fehler bleibt, pruefe ob ./vendor/html2pdf.bundle.min.js im Repo vorhanden ist.");
+        window.alert("PDF konnte nicht erzeugt werden. Bitte Seite neu laden und erneut versuchen.");
     } finally {
         certificate.style.width = originalWidth;
         certificate.style.minHeight = originalMinHeight;
