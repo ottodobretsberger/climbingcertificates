@@ -11,6 +11,36 @@ const fields = {
     city: document.getElementById("cityInput")
 };
 
+const logoImage = document.querySelector(".certificate__logo");
+
+const toJpegDataUrl = (imgElement) => {
+    if (!imgElement) {
+        return null;
+    }
+
+    const width = imgElement.naturalWidth || imgElement.width;
+    const height = imgElement.naturalHeight || imgElement.height;
+
+    if (!width || !height) {
+        return null;
+    }
+
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+
+    const context = canvas.getContext("2d");
+    if (!context) {
+        return null;
+    }
+
+    context.fillStyle = "#ffffff";
+    context.fillRect(0, 0, width, height);
+    context.drawImage(imgElement, 0, 0, width, height);
+
+    return canvas.toDataURL("image/jpeg", 0.96);
+};
+
 const formatYear = (value) => {
     if (!value) {
         return new Date().getFullYear().toString();
@@ -69,6 +99,7 @@ downloadPdfButton.addEventListener("click", async () => {
     const originalMinHeight = certificate.style.minHeight;
     const originalHeight = certificate.style.height;
     const originalMargin = certificate.style.margin;
+    const originalLogoSrc = logoImage ? logoImage.getAttribute("src") : null;
 
     certificate.style.width = "210mm";
     certificate.style.minHeight = "297mm";
@@ -94,15 +125,25 @@ downloadPdfButton.addEventListener("click", async () => {
     };
 
     try {
+        if (logoImage) {
+            const jpegLogo = toJpegDataUrl(logoImage);
+            if (jpegLogo) {
+                logoImage.setAttribute("src", jpegLogo);
+            }
+        }
+
         await window.html2pdf().set(options).from(certificate).save();
     } catch (error) {
         console.error("PDF export failed", error);
-        window.alert("PDF konnte nicht erzeugt werden. Bitte Seite neu laden und erneut versuchen.");
+        window.alert("PDF konnte nicht erzeugt werden. Bitte Seite neu laden und erneut versuchen. Falls der Fehler bleibt, pruefe ob ./vendor/html2pdf.bundle.min.js im Repo vorhanden ist.");
     } finally {
         certificate.style.width = originalWidth;
         certificate.style.minHeight = originalMinHeight;
         certificate.style.height = originalHeight;
         certificate.style.margin = originalMargin;
+        if (logoImage && originalLogoSrc) {
+            logoImage.setAttribute("src", originalLogoSrc);
+        }
     }
 });
 
