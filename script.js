@@ -1,7 +1,6 @@
 const form = document.getElementById("certificate-form");
 const certificate = document.getElementById("certificate");
 const downloadPdfButton = document.getElementById("downloadPdfButton");
-const printButton = document.getElementById("printButton");
 
 const fields = {
     eventName: document.getElementById("eventNameInput"),
@@ -54,6 +53,28 @@ const formatYear = (value) => {
     return date.getFullYear().toString();
 };
 
+const toIsoDate = (value) => {
+    if (!value) {
+        return "";
+    }
+
+    if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+        return value;
+    }
+
+    const parts = value.split(/[./-]/);
+    if (parts.length !== 3) {
+        return "";
+    }
+
+    const [day, month, year] = parts;
+    if (!day || !month || !year) {
+        return "";
+    }
+
+    return `${year.padStart(4, "0")}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+};
+
 const updatePreview = () => {
     document.querySelectorAll("[data-bind='eventName']").forEach((element) => {
         element.textContent = fields.eventName.value || "Veranstaltungsname";
@@ -71,22 +92,15 @@ const updatePreview = () => {
         element.textContent = fields.city.value || "Ort";
     });
 
+    const isoDate = toIsoDate(fields.date.value);
     document.querySelectorAll("[data-bind='year']").forEach((element) => {
-        element.textContent = formatYear(fields.date.value);
+        element.textContent = formatYear(isoDate);
     });
 };
 
 Object.values(fields).forEach((field) => {
     field.addEventListener("input", updatePreview);
     field.addEventListener("change", updatePreview);
-});
-
-form.addEventListener("reset", () => {
-    window.requestAnimationFrame(updatePreview);
-});
-
-printButton.addEventListener("click", () => {
-    window.print();
 });
 
 downloadPdfButton.addEventListener("click", async () => {
@@ -149,5 +163,23 @@ downloadPdfButton.addEventListener("click", async () => {
     }
 });
 
-fields.date.value = new Date().toISOString().split("T")[0];
+if (typeof window.flatpickr === "function") {
+    if (window.flatpickr.l10ns && window.flatpickr.l10ns.de) {
+        window.flatpickr.localize(window.flatpickr.l10ns.de);
+    }
+
+    window.flatpickr(fields.date, {
+        locale: "de",
+        dateFormat: "Y-m-d",
+        altInput: true,
+        altFormat: "d/m/Y",
+        defaultDate: new Date(),
+        weekNumbers: false,
+        onChange: () => updatePreview(),
+        onReady: () => updatePreview()
+    });
+} else {
+    fields.date.value = new Date().toISOString().split("T")[0];
+}
+
 updatePreview();

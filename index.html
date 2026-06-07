@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./vendor/flatpickr.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -36,7 +37,7 @@
 
                 <label class="field">
                     <span>Datum</span>
-                    <input id="dateInput" name="date" type="date">
+                    <input id="dateInput" name="date" type="text" inputmode="numeric" autocomplete="off" placeholder="TT/MM/JJJJ">
                 </label>
 
                 <label class="field">
@@ -46,10 +47,7 @@
 
                 <div class="actions">
                     <button class="button button--primary" type="button" id="downloadPdfButton">PDF herunterladen</button>
-                    <button class="button button--secondary" type="button" id="printButton">Drucken</button>
-                    <button class="button button--secondary" type="reset">Zurücksetzen</button>
                 </div>
-                <p class="print-note">Hinweis: Beim Browser-Druck bitte "Kopf- und Fußzeilen" deaktivieren.</p>
             </form>
         </section>
 
@@ -78,6 +76,8 @@
 
     <script src="./vendor/html2canvas.min.js"></script>
     <script src="./vendor/jspdf.umd.min.js"></script>
+    <script src="./vendor/flatpickr.min.js"></script>
+    <script src="./vendor/flatpickr-de.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
